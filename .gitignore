@@ -1,5 +1,5 @@
 # Data
-/data/
+data/*
 
 # pero se permiten directorios clave y los .dvc
 !data/raw/
