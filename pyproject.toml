@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "src"
-version = "0.0.1"
+version = "0.1.0"
 description = "Proyecto para predecir primas de seguros"
 authors = [
   { name = "fertueros" },
