@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "src"
-version = "0.0.1"
+version = "0.1.0"
 description = "Proyecto para predecir primas de seguros"
 authors = [
   { name = "fertueros" },
@@ -16,12 +16,25 @@ classifiers = [
     "License :: OSI Approved :: MIT License"
 ]
 dependencies = [
+    "dagshub>=0.6.2",
+    "dvc>=3.61.0",
+    "feast>=0.51.0",
+    "jupyterlab>=4.4.5",
+    "lightgbm>=4.6.0",
     "loguru",
+    "matplotlib>=3.10.3",
+    "mlflow>=3.1.4",
+    "numpy>=2.3.2",
+    "optuna>=4.4.0",
+    "pandas>=2.3.1",
     "pip",
     "python-dotenv",
     "ruff",
+    "scikit-learn>=1.7.1",
+    "seaborn>=0.13.2",
     "tqdm",
     "typer",
+    "xgboost>=3.0.2",
 ]
 requires-python = "~=3.11.0"
 
