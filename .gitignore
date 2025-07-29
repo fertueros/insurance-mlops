@@ -1,5 +1,10 @@
 # Data
-/data/
+data/*
+
+# pero se permiten directorios clave y los .dvc
+!data/raw/
+!data/processed/
+!data/**/*.dvc
 
 # Mac OS-specific storage files
 .DS_Store
@@ -184,3 +189,4 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+.dvc/config.local
