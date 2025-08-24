@@ -1,0 +1,62 @@
+stages:
+  preprocess:
+    cmd: python -m src.train --only-preprocess
+    deps:
+      - data/raw/train.csv
+      - src/clean.py
+      - src/features.py
+      - src/config.py
+      - src/train.py
+    outs:
+      - data/processed/train_proc.parquet
+
+  feast_build:
+    cmd: python scripts/build_training_set.py
+    deps:
+      - data/processed/train_proc.parquet
+      - feature_repo/feature_store.yaml
+      - feature_repo/data_sources.py
+      - feature_repo/features.py
+      - scripts/build_training_set.py
+    outs:
+      - data/feast/training_set.parquet
+
+  tune_hgb:
+    cmd: python -m src.tune --model hgb --trials 30 --data data/feast/training_set.parquet
+    deps:
+      - data/feast/training_set.parquet
+      - src/tune.py
+      - src/splits.py
+      - src/models.py
+    outs:
+      - artifacts/optuna/hgb_best_params.json
+
+  tune_xgb:
+    cmd: python -m src.tune --model xgb --trials 30 --data data/feast/training_set.parquet
+    deps:
+      - data/feast/training_set.parquet
+      - src/tune.py
+      - src/splits.py
+      - src/models.py
+    outs:
+      - artifacts/optuna/xgb_best_params.json
+
+  tune_lgbm:
+    cmd: python -m src.tune --model lgbm --trials 30 --data data/feast/training_set.parquet
+    deps:
+      - data/feast/training_set.parquet
+      - src/tune.py
+      - src/splits.py
+      - src/models.py
+    outs:
+      - artifacts/optuna/lgbm_best_params.json
+
+  train:
+    cmd: python -m src.train --from-processed data/feast/training_set.parquet --use-best-params
+    deps:
+      - data/feast/training_set.parquet
+      - artifacts/optuna/hgb_best_params.json
+      - artifacts/optuna/xgb_best_params.json
+      - artifacts/optuna/lgbm_best_params.json
+      - src/train.py
+      - src/models.py
