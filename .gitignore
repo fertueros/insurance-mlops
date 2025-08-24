@@ -197,6 +197,7 @@ mlruns/
 
 reports/
 
-# Archivos y artefactos de Feast
+# Archivos, artefactos de Feast y gestion de dvc
+data/processed/
 feature_repo/data/
 *.parquet
