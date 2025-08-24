@@ -196,3 +196,7 @@ logs/
 mlruns/
 
 reports/
+
+# Archivos y artefactos de Feast
+feature_repo/data/
+*.parquet
