@@ -1,0 +1,58 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python -m src.train --only-preprocess
+    deps:
+    - path: data/raw/train.csv
+      hash: md5
+      md5: 2ed387bf70996429a4290becbf8b05ee
+      size: 194100597
+    - path: src/clean.py
+      hash: md5
+      md5: 12b0089eef98bedeb22d5049417ae99a
+      size: 2435
+    - path: src/config.py
+      hash: md5
+      md5: 0abccc6e605344d7486e8ab3a0ebd29d
+      size: 1621
+    - path: src/features.py
+      hash: md5
+      md5: 2f0cf87bc143145f05d059d6c4783fbd
+      size: 2489
+    - path: src/train.py
+      hash: md5
+      md5: 8d7e2335929b935aa7e740b8060a5aac
+      size: 4999
+    outs:
+    - path: data/processed/train_proc.parquet
+      hash: md5
+      md5: 7a40d906f17611f1aca0c27d40e8207c
+      size: 46787086
+  feast_build:
+    cmd: python scripts/build_training_set.py
+    deps:
+    - path: data/processed/train_proc.parquet
+      hash: md5
+      md5: 7a40d906f17611f1aca0c27d40e8207c
+      size: 46787086
+    - path: feature_repo/data_sources.py
+      hash: md5
+      md5: 99465202e6cf8cf21abe92558fa7f871
+      size: 215
+    - path: feature_repo/feature_store.yaml
+      hash: md5
+      md5: 6875537b63c06cd302b27b1ae80333d5
+      size: 155
+    - path: feature_repo/features.py
+      hash: md5
+      md5: e280c7846d27199242db0c3c94461540
+      size: 2637
+    - path: scripts/build_training_set.py
+      hash: md5
+      md5: d9a9d66f635ed4156b9d7ebc01c0eb86
+      size: 6180
+    outs:
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
