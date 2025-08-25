@@ -1,7 +1,7 @@
 # Predicción de Primas de Seguro con MLOps
 
 <p align="center">
-  <a href="https://github.com/fertueros/insurance-mlops/releases"><img src="https://img.shields.io/github/v/release/fertueros/insurance-mlops" /></a>
+  <a href="https://github.com/fertueros/insurance-mlops/releases"><img alt="Release" src="https://img.shields.io/github/v/release/fertueros/insurance-mlops?sort=semver" /></a>
   <a href="https://dagshub.com/fertueros/insurance-mlops"><img src="https://img.shields.io/badge/DagsHub-Repo-0094FF?logo=github" /></a>
   <a href="https://dagshub.com/fertueros/insurance-mlops.mlflow"><img src="https://img.shields.io/badge/MLflow-Tracking%20%26%20Registry-0194E2?logo=mlflow" /></a>
   <img src="https://img.shields.io/badge/Python-3.11%2B-blue?logo=python" />
