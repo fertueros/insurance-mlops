@@ -21,6 +21,29 @@ MODELS_DIR = PROJ_ROOT / "models"
 REPORTS_DIR = PROJ_ROOT / "reports"
 FIGURES_DIR = REPORTS_DIR / "figures"
 
+# Añadiendo paths para el proceso del train - rama ml-pipeline
+RAW_TRAIN = "data/raw/train.csv"
+RAW_TEST  = "data/raw/test.csv"
+PROC_PATH = "data/processed/train_proc.parquet"
+FEAST_TRAINSET = "data/feast/training_set.parquet"
+
+ARTIFACTS_DIR = PROJ_ROOT / "artifacts"
+
+TARGET   = "Premium Amount"
+DATE_COL = "Policy Start Date"
+
+ORDINAL_COLS = {
+   "Policy Type": ["Basic","Comprehensive","Premium"],
+   "Education Level": ["High School","Bachelor's","Master's","PhD"],
+   "Customer Feedback": ["Poor","Average","Good"],  # en tu caso es ordinal
+}
+BINARY_COLS = ["Gender","Smoking Status"]
+NOMINAL_COLS = ["Marital Status","Occupation","Location","Exercise Frequency","Property Type"]
+
+NUM_COLS = ["Age","Annual Income","Number of Dependents","Health Score","Previous Claims",
+            "Vehicle Age","Credit Score","Insurance Duration"]
+
+
 # If tqdm is installed, configure loguru with tqdm.write
 # https://github.com/Delgan/loguru/issues/135
 try:
