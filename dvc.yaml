@@ -63,3 +63,21 @@ stages:
     outs:
       - artifacts/oof_predictions.csv
       - models/stacking_ensemble.joblib
+
+  predict_test:
+    cmd: python scripts/predict_test.py
+    deps:
+      - scripts/predict_test.py
+      - models/stacking_ensemble.joblib
+      - data/feast/training_set.parquet
+      - data/raw/test.csv
+      - src/train.py
+      - src/data.py
+    outs:
+      - reports/predictions_test.csv
+  
+  register_model:
+    cmd: python scripts/register_model.py
+    deps:
+      - scripts/register_model.py
+      - models/stacking_ensemble.joblib

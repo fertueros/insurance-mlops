@@ -168,3 +168,46 @@ stages:
       hash: md5
       md5: a8263b06f571e40e258cb2a3519c0d74
       size: 17419204
+  predict_test:
+    cmd: python scripts/predict_test.py
+    deps:
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
+    - path: data/raw/test.csv
+      hash: md5
+      md5: 9e1ec5f2080d50d7c3688b2c67b76165
+      size: 125034531
+    - path: models/stacking_ensemble.joblib
+      hash: md5
+      md5: a8263b06f571e40e258cb2a3519c0d74
+      size: 17419204
+    - path: scripts/predict_test.py
+      hash: md5
+      md5: 81dbfc6f6b5385590f1b6436513e459d
+      size: 3222
+    - path: src/data.py
+      hash: md5
+      md5: 8bd85330c1cf5c264d46cb806543c67f
+      size: 966
+    - path: src/train.py
+      hash: md5
+      md5: 8b9ee7f3344196246e187606beecbd0c
+      size: 8574
+    outs:
+    - path: reports/predictions_test.csv
+      hash: md5
+      md5: efd7e9c7e119881783e34ea24041abf3
+      size: 21361324
+  register_model:
+    cmd: python scripts/register_model.py
+    deps:
+    - path: models/stacking_ensemble.joblib
+      hash: md5
+      md5: a8263b06f571e40e258cb2a3519c0d74
+      size: 17419204
+    - path: scripts/register_model.py
+      hash: md5
+      md5: dbdcd89c8c454db3a9cb660261fc2b84
+      size: 2707
