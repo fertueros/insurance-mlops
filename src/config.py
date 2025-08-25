@@ -27,6 +27,8 @@ RAW_TEST  = "data/raw/test.csv"
 PROC_PATH = "data/processed/train_proc.parquet"
 FEAST_TRAINSET = "data/feast/training_set.parquet"
 
+ARTIFACTS_DIR = PROJ_ROOT / "artifacts"
+
 TARGET   = "Premium Amount"
 DATE_COL = "Policy Start Date"
 

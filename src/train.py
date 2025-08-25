@@ -2,13 +2,14 @@
 import argparse
 import mlflow, numpy as np, pandas as pd
 from .mlflow_setup import setup_mlflow
-from .config import RAW_TRAIN, PROC_PATH, DATE_COL
+from .config import RAW_TRAIN, PROC_PATH, DATE_COL, ARTIFACTS_DIR, TARGET
 from .data import save_processed, split_xy, load_processed
 from .clean import coerce_and_impute, winsorize, parse_dates_and_features
 from .features import fill_categoricals, ordinal_encode, encode_nominals_and_binaries
 from .models import build_model, rmsle
 from .splits import stratified_regression_folds
 import json
+from pathlib import Path
 
 def preprocess(raw_path=RAW_TRAIN):
     df = pd.read_csv(raw_path)
@@ -55,10 +56,13 @@ def cv_train(df, models=("hgb","xgb","lgbm"), n_splits=5, best_params_dir=None):
                     all_best_params[m] = json.load(f)['params']
             except FileNotFoundError:
                 all_best_params[m] = {}
+    
+    oof_predictions = {}
 
     for name in models:
         oof = np.zeros(len(y))
         with mlflow.start_run(run_name=f"{name}-cv", nested=True):
+            fold_scores = []
             for i,(tr,va) in enumerate(folds, start=1):
                 parametros = all_best_params.get(name, {})
                 m = build_model(name, params=parametros)
@@ -66,11 +70,13 @@ def cv_train(df, models=("hgb","xgb","lgbm"), n_splits=5, best_params_dir=None):
                 pred = m.predict(X.iloc[va])
                 score = rmsle(y.iloc[va], pred)
                 mlflow.log_metric(f"rmsle_fold_{i}", score)
+                fold_scores.append(score)
                 oof[va] = pred
-            mean_score = float(np.mean([mlflow.active_run().data.metrics[k] for k in mlflow.active_run().data.metrics if k.startswith("rmsle_fold_")]))
+            oof_predictions[name] = oof
+            mean_score = float(np.mean(fold_scores))
             mlflow.log_metric("rmsle_cv", mean_score)
             results[name] = mean_score
-    return results
+    return results, oof_predictions
 
 if __name__ == "__main__":
     # --- Añadimos el parser de argumentos ---
@@ -96,7 +102,18 @@ if __name__ == "__main__":
         with mlflow.start_run(run_name="train-cv"):
             print(f"--- Iniciando entrenamiento desde: {args.from_processed} ---")
             dfp = load_processed(args.from_processed)
-            metrics = cv_train(dfp, n_splits=5, best_params_dir=args.use_best_params)
+            metrics, oof_preds = cv_train(dfp, n_splits=5, best_params_dir=args.use_best_params)
+
+            # Guardando OOF
+            print("--- Guardando predicciones Out-of-Fold para análisis ---")
+            oof_df = pd.DataFrame(oof_preds)
+            oof_df[TARGET] = dfp[TARGET]
+            
+            oof_path = Path(ARTIFACTS_DIR) / "oof_predictions.csv"
+            oof_path.parent.mkdir(parents=True, exist_ok=True)
+            oof_df.to_csv(oof_path, index=False)
+            mlflow.log_artifact(str(oof_path))
+
             mlflow.log_dict(metrics, "cv_metrics.json")
             print("--- Entrenamiento completado ---")
             

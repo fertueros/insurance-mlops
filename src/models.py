@@ -6,7 +6,8 @@ from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 
 def rmsle(y_true, y_pred):
-    return float(np.sqrt(mean_squared_error(np.log1p(y_true), np.log1p(y_pred))))
+    safe_y_pred = np.maximum(0, y_pred)
+    return float(np.sqrt(mean_squared_error(np.log1p(y_true), np.log1p(safe_y_pred))))
 
 def build_model(name: str, params: dict = None):
     params = params or {}
