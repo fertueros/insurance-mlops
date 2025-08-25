@@ -13,16 +13,16 @@ stages:
       size: 2435
     - path: src/config.py
       hash: md5
-      md5: 0abccc6e605344d7486e8ab3a0ebd29d
-      size: 1621
+      md5: 8a0a473076ecbcd79cda91643897fafd
+      size: 1662
     - path: src/features.py
       hash: md5
       md5: 2f0cf87bc143145f05d059d6c4783fbd
       size: 2489
     - path: src/train.py
       hash: md5
-      md5: 8d7e2335929b935aa7e740b8060a5aac
-      size: 4999
+      md5: b48b728ba8afca80dd3bd7d5a42fa923
+      size: 5551
     outs:
     - path: data/processed/train_proc.parquet
       hash: md5
@@ -56,3 +56,111 @@ stages:
       hash: md5
       md5: f1420b202b640d62cae1295f5ca543aa
       size: 31150856
+  tune_lgbm:
+    cmd: python -m src.tune --model lgbm --trials 3 --data 
+      data/feast/training_set.parquet
+    deps:
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
+    - path: src/models.py
+      hash: md5
+      md5: 65ebbfc91103d5ccdfb6750ae1a26bf3
+      size: 932
+    - path: src/splits.py
+      hash: md5
+      md5: 0c1ec0b408eade214580c1a8fb99043e
+      size: 1246
+    - path: src/tune.py
+      hash: md5
+      md5: ca2e23c24cc619dee528d4aaf5fdd593
+      size: 5572
+    outs:
+    - path: artifacts/optuna/lgbm_best_params.json
+      hash: md5
+      md5: 8268799655322684102912cd4b247f2e
+      size: 268
+  tune_xgb:
+    cmd: python -m src.tune --model xgb --trials 3 --data 
+      data/feast/training_set.parquet
+    deps:
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
+    - path: src/models.py
+      hash: md5
+      md5: 65ebbfc91103d5ccdfb6750ae1a26bf3
+      size: 932
+    - path: src/splits.py
+      hash: md5
+      md5: 0c1ec0b408eade214580c1a8fb99043e
+      size: 1246
+    - path: src/tune.py
+      hash: md5
+      md5: ca2e23c24cc619dee528d4aaf5fdd593
+      size: 5572
+    outs:
+    - path: artifacts/optuna/xgb_best_params.json
+      hash: md5
+      md5: b26bd77c7fff6cfb81fc09dac16cd82b
+      size: 320
+  tune_hgb:
+    cmd: python -m src.tune --model hgb --trials 3 --data 
+      data/feast/training_set.parquet
+    deps:
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
+    - path: src/models.py
+      hash: md5
+      md5: 65ebbfc91103d5ccdfb6750ae1a26bf3
+      size: 932
+    - path: src/splits.py
+      hash: md5
+      md5: 0c1ec0b408eade214580c1a8fb99043e
+      size: 1246
+    - path: src/tune.py
+      hash: md5
+      md5: ca2e23c24cc619dee528d4aaf5fdd593
+      size: 5572
+    outs:
+    - path: artifacts/optuna/hgb_best_params.json
+      hash: md5
+      md5: 7b8139839010a4e1de6f3fbe448cc4f5
+      size: 218
+  train:
+    cmd: python -m src.train --from-processed data/feast/training_set.parquet 
+      --use-best-params artifacts/optuna
+    deps:
+    - path: artifacts/optuna/hgb_best_params.json
+      hash: md5
+      md5: 7b8139839010a4e1de6f3fbe448cc4f5
+      size: 218
+    - path: artifacts/optuna/lgbm_best_params.json
+      hash: md5
+      md5: 8268799655322684102912cd4b247f2e
+      size: 268
+    - path: artifacts/optuna/xgb_best_params.json
+      hash: md5
+      md5: b26bd77c7fff6cfb81fc09dac16cd82b
+      size: 320
+    - path: data/feast/training_set.parquet
+      hash: md5
+      md5: f1420b202b640d62cae1295f5ca543aa
+      size: 31150856
+    - path: src/models.py
+      hash: md5
+      md5: 65ebbfc91103d5ccdfb6750ae1a26bf3
+      size: 932
+    - path: src/train.py
+      hash: md5
+      md5: b48b728ba8afca80dd3bd7d5a42fa923
+      size: 5551
+    outs:
+    - path: artifacts/oof_predictions.csv
+      hash: md5
+      md5: 8dd4976c89bb59f51b82f96c3d8aa514
+      size: 74100811
