@@ -201,6 +201,4 @@ reports/
 data/processed/
 feature_repo/data/
 *.parquet
-
-# Artefactos de Optuna
-artifacts/optuna/
+artifacts/
