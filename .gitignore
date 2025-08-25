@@ -202,3 +202,4 @@ data/processed/
 feature_repo/data/
 *.parquet
 artifacts/
+models/

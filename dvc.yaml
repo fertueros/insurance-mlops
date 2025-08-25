@@ -22,7 +22,7 @@ stages:
       - data/feast/training_set.parquet
 
   tune_hgb:
-    cmd: python -m src.tune --model hgb --trials 3 --data data/feast/training_set.parquet
+    cmd: python -m src.tune --model hgb --trials 25 --data data/feast/training_set.parquet
     deps:
       - data/feast/training_set.parquet
       - src/tune.py
@@ -32,7 +32,7 @@ stages:
       - artifacts/optuna/hgb_best_params.json
 
   tune_xgb:
-    cmd: python -m src.tune --model xgb --trials 3 --data data/feast/training_set.parquet
+    cmd: python -m src.tune --model xgb --trials 25 --data data/feast/training_set.parquet
     deps:
       - data/feast/training_set.parquet
       - src/tune.py
@@ -42,7 +42,7 @@ stages:
       - artifacts/optuna/xgb_best_params.json
 
   tune_lgbm:
-    cmd: python -m src.tune --model lgbm --trials 3 --data data/feast/training_set.parquet
+    cmd: python -m src.tune --model lgbm --trials 25 --data data/feast/training_set.parquet
     deps:
       - data/feast/training_set.parquet
       - src/tune.py
@@ -62,3 +62,4 @@ stages:
       - src/models.py
     outs:
       - artifacts/oof_predictions.csv
+      - models/stacking_ensemble.joblib
