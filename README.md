@@ -193,6 +193,21 @@ client.set_registered_model_alias("insurance-premium-stacking", "champion", 1)
 * `05_Optuna.ipynb`: historia de optimización e importancias.
 * `06_Comparativa_modelos.ipynb`: comparación de modelos base (CV).
 * `07_Analisis_de_errores.ipynb`: análisis de error y segmentos.
+* `08_Interpretabilidad.ipynb`:
+  - Importancia global de variables vía *Permutation Importance* (RMSLE).
+  - Gráficos PDP + ICE sobre el modelo base HGB.
+  - Explicaciones globales y locales con **SHAP**.
+
+* `09_Fairness.ipynb`:
+  - Evaluación de MAE y RMSLE por género, estado civil y grupos de edad usando **Fairlearn / MetricFrame**.
+  - Análisis de tasas de “prima alta” por grupo (paridad demográfica aproximada).
+  - Ejemplos de explicaciones contrafactuales con **DiCE**, manteniendo fijos edad y género.
+
+* `10_Monitoreo.ipynb`:
+  - Construcción de datasets de referencia y escenarios actuales (baseline vs drift simulado).
+  - Reportes de **data drift** y **performance de regresión** con **Evidently**.
+  - Análisis del impacto del drift en variables clave y en la calidad del modelo.
+
 
 ---
 
@@ -200,6 +215,9 @@ client.set_registered_model_alias("insurance-premium-stacking", "champion", 1)
 
 * **SemVer 2.0.0** y **Keep a Changelog**.
 * Ramas: `main` (estable), `develop` (integración), `feature/*` (PRs hacia `develop`).
+* Releases:
+  * `v1.0.0`: pipeline de ML reproducible con DVC, Feast, Optuna y ensamble Stacking.
+  * `v2.0.0`: añade notebooks 08–10 con interpretabilidad, fairness y monitoreo de drift/desempeño.
 
 **Checklist de release**
 

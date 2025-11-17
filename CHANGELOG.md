@@ -3,6 +3,25 @@ Todas las notas de cambios de este proyecto siguen [SemVer](https://semver.org) 
 
 ## [Unreleased]
 
+## [2.0.0] - 2025-11-16
+### Added
+- Notebook `08_Interpretabilidad.ipynb` con análisis de:
+  - Importancia global (Permutation Importance) usando RMSLE.
+  - Gráficos PDP + ICE sobre el modelo base HGB.
+  - Explicaciones globales y locales con SHAP.
+- Notebook `09_Fairness.ipynb` con:
+  - Métricas MAE y RMSLE desagregadas por género, estado civil y grupo de edad usando Fairlearn.
+  - Análisis de tasas de primas altas por grupo (paridad demográfica aproximada).
+  - Ejemplos de explicaciones contrafactuales generadas con DiCE.
+- Notebook `10_Monitoreo.ipynb` con:
+  - Construcción de datasets de referencia y escenarios actuales (baseline y drift simulado).
+  - Reportes de data drift y performance de regresión con Evidently.
+
+### Changed
+- Actualización del README para documentar los notebooks 8, 9 y 10. Y la versión v2.0.0.
+- Actualización de dependencias en `pyproject.toml` para incluir librerías de interpretabilidad, fairness y monitoreo.
+
+
 ## [1.0.0] - 2025-08-25
 ### Added
 
@@ -85,7 +104,8 @@ Todas las notas de cambios de este proyecto siguen [SemVer](https://semver.org) 
 - `.gitignore` ajustado para permitir punteros `*.dvc` bajo `data/` y mantener datasets fuera de Git.
 - Placeholders en `data/processed/` para preservar la estructura del proyecto.
 
-[Unreleased]: https://github.com/fertueros/insurance-mlops/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/fertueros/insurance-mlops/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/fertueros/insurance-mlops/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/fertueros/insurance-mlops/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/fertueros/insurance-mlops/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/fertueros/insurance-mlops/tree/v0.1.0
