@@ -215,6 +215,9 @@ client.set_registered_model_alias("insurance-premium-stacking", "champion", 1)
 
 * **SemVer 2.0.0** y **Keep a Changelog**.
 * Ramas: `main` (estable), `develop` (integración), `feature/*` (PRs hacia `develop`).
+* Releases:
+  * `v1.0.0`: pipeline de ML reproducible con DVC, Feast, Optuna y ensamble Stacking.
+  * `v2.0.0`: añade notebooks 08–10 con interpretabilidad, fairness y monitoreo de drift/desempeño.
 
 **Checklist de release**
 
